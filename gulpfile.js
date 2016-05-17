@@ -36,7 +36,7 @@ gulp.task('clean:images', function () {
 /*
 Task for compiling Sass files
 */
-gulp.task('sass', function () {
+gulp.task('build:css', function () {
   return sass(paths.scss, {
   	sourcemap: false, 
   	noCache: true,
@@ -50,7 +50,7 @@ gulp.task('sass', function () {
 /*
 Task to minify JavaScript files
 */
-gulp.task('uglify', function() {
+gulp.task('build:js', function() {
   return gulp.src(paths.scripts)
     .pipe(newer('dist/scripts'))
     .pipe(uglify())
@@ -60,7 +60,7 @@ gulp.task('uglify', function() {
 /*
 Task to compile HTML
 */
-gulp.task('panini', function() {
+gulp.task('build:html', function() {
   gulp.src('src/pages/**/*.html')
     .pipe(panini({
       root: 'src/pages/',
@@ -74,7 +74,7 @@ gulp.task('panini', function() {
 });
 
 /*
-Task to optimize and copy images
+Task to optimize svgs and copy images
 */
 gulp.task('svgmin', function(){
   gulp.src('src/resources/images/svg/*.svg')
@@ -94,11 +94,11 @@ gulp.task('serve', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(paths.scss, ['sass']);
-  gulp.watch(paths.scripts, ['uglify']);
-  gulp.watch(paths.html, ['panini']);
+  gulp.watch(paths.scss, ['build:css']);
+  gulp.watch(paths.scripts, ['build:js']);
+  gulp.watch(paths.html, ['build:html']);
   gulp.watch(paths.images, ['moveImg']);
 });
 
-gulp.task('default', ['sass', 'uglify', 'panini', 'moveImg', 'serve', 'watch']);
+gulp.task('default', ['build:css', 'build:js', 'build:html', 'moveImg', 'serve', 'watch']);
 
