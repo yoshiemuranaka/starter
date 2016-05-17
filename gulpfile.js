@@ -78,6 +78,7 @@ Task to optimize svgs and copy images
 */
 gulp.task('build:svg', function(){
   gulp.src('src/resources/images/*.svg')
+  .pipe(newer('dist/images'))
   .pipe(svgmin())
   .pipe(gulp.dest('dist/images'));
 })
