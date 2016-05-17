@@ -76,12 +76,12 @@ gulp.task('build:html', function() {
 /*
 Task to optimize svgs and copy images
 */
-gulp.task('svgmin', function(){
+gulp.task('build:svg', function(){
   gulp.src('src/resources/images/*.svg')
   .pipe(svgmin())
   .pipe(gulp.dest('dist/images'));
 })
-gulp.task('moveImg', ['svgmin'], function() {
+gulp.task('move:img', ['build:svg'], function() {
    gulp.src('src/resources/images/**/*.{jpg,png}')
    .pipe(newer('dist/images'))
    .pipe(gulp.dest('dist/images'));
@@ -97,8 +97,8 @@ gulp.task('watch', function() {
   gulp.watch(paths.scss, ['build:css']);
   gulp.watch(paths.scripts, ['build:js']);
   gulp.watch(paths.html, ['build:html']);
-  gulp.watch(paths.images, ['moveImg']);
+  gulp.watch(paths.images, ['move:img']);
 });
 
-gulp.task('default', ['build:css', 'build:js', 'build:html', 'moveImg', 'serve', 'watch']);
+gulp.task('default', ['build:css', 'build:js', 'build:html', 'move:img', 'serve', 'watch']);
 
